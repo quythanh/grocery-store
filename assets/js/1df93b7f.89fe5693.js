@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[583],{5322:(r,s,e)=>{e.r(s),e.d(s,{default:()=>t});var c=e(5557),o=e(6070);function t(){return(0,o.jsx)(c.rd,{to:"/grocery-store//docs/intro"})}}}]);

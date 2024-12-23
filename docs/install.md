@@ -2,9 +2,9 @@
 
 ## Prerequisites
 
-- Docker Desktop for Mac 2.2.0.0 or later or Docker for Linux
+- [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) 2.2.0.0 or later or [Docker for Linux](https://docs.docker.com/desktop/setup/install/linux/)
 (Warden has been tested on Fedora 29 and Ubuntu 18.10)
-or Docker for Windows
+or [Docker for Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
 - `docker-compose` version 2 or later is required.
 - [Git](https://git-scm.com/downloads)
 
@@ -165,6 +165,11 @@ printf "%s\n\n" "https://${TRAEFIK_SUBDOMAIN}.${TRAEFIK_DOMAIN}/media/${ADMIN_US
 ```bash
 bin/magento module:disable -f Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFactorAuth
 ```
+
+9. Launch the application in your browser:
+
+- [https://app.grocery-store.test/](https://app.grocery-store.test/)
+- [https://app.grocery-store.test/backend/](https://app.grocery-store.test/backend/)
 
 ## Frontend
 

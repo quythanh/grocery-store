@@ -2,11 +2,12 @@
 
 ## Prerequisites
 
-- [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) 2.2.0.0 or later or [Docker for Linux](https://docs.docker.com/desktop/setup/install/linux/)
-(Warden has been tested on Fedora 29 and Ubuntu 18.10)
-or [Docker for Windows](https://docs.docker.com/desktop/setup/install/windows-install/)
+- [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) (2.2.0.0 or later)
+or [Docker for Linux](https://docs.docker.com/desktop/setup/install/linux/)
+or [Docker for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) (if you're using WSL2)
 - `docker-compose` version 2 or later is required.
 - [Git](https://git-scm.com/downloads)
+- [Homebrew](https://brew.sh/)
 
 ## Backend
 
@@ -21,13 +22,19 @@ warden svc up
 
 ### Automatic DNS Resolution
 
-#### Linux
+#### MacOS
+
+This configuration is automatic via the BSD per-TLD resolver configuration found at `/etc/resolver/test`.
+
+#### Linux / Windows (WSL2)
 
 Add the following line to `/etc/hosts`.
 
 ```
 127.0.0.1 app.grocery-store.test
 ```
+
+**Note:** if you're using Windows with **WSL2**, you also need to add to `C:\Windows\System32\drivers\etc\hosts`
 
 ### Setup Magento 2
 
@@ -38,8 +45,7 @@ git clone https://github.com/quythanh/grocery-store-backend
 cd grocery-store-backend
 ```
 
-2. Sign an SSL certificate for use with the project (the input here should
-match the value of `TRAEFIK_DOMAIN` in the above `.env` example file):
+2. Sign an SSL certificate:
 
 ```bash
 warden sign-certificate grocery-store.test
@@ -51,21 +57,27 @@ warden sign-certificate grocery-store.test
 warden env up
 ```
 
-4. Drop into a shell within the project environment. Commands following
-this step in the setup procedure will be run from within the `php-fpm`
-docker container this launches you into:
+4. Drop into a shell within the project environment:
 
 ```bash
 warden shell
 ```
 
-5. Install libraries
+5. Create an access key [here](https://commercemarketplace.adobe.com/customer/accessKeys/) and Configure global Magento Marketplace credentials:
+
+```bash
+composer global config http-basic.repo.magento.com <username> <password>
+```
+
+(Use the **Public key** as your `<username>` and the **Private key** as your `<password>`)
+
+6. Install libraries
 
 ```bash
 composer install
 ```
 
-6. Install the application and you should be all set:
+7. Install the application:
 
 ```bash
 ## Install Application
@@ -127,10 +139,9 @@ bin/magento indexer:reindex
 bin/magento cache:flush
 ```
 
-7. Generate an admin user
+8. Generate an admin user
 
 ```bash
-## Generate localadmin user
 ADMIN_PASS="$(pwgen -n1 16)"
 ADMIN_USER=localadmin
 
@@ -141,32 +152,15 @@ bin/magento admin:user:create \
     --admin-lastname="Admin" \
     --admin-email="${ADMIN_USER}@example.com"
 printf "u: %s\np: %s\n" "${ADMIN_USER}" "${ADMIN_PASS}"
-
-## Configure 2FA provider
-OTPAUTH_QRI=
-# Python 3:
-TFA_SECRET=$(python3 -c "import base64; print(base64.b32encode(bytearray('$(pwgen -A1 128)', 'ascii')).decode('utf-8'))" | sed 's/=*$//')
-OTPAUTH_URL=$(printf "otpauth://totp/%s%%3Alocaladmin%%40example.com?issuer=%s&secret=%s" \
-    "${TRAEFIK_SUBDOMAIN}.${TRAEFIK_DOMAIN}" "${TRAEFIK_SUBDOMAIN}.${TRAEFIK_DOMAIN}" "${TFA_SECRET}"
-)
-
-bin/magento config:set --lock-env twofactorauth/general/force_providers google
-bin/magento security:tfa:google:set-secret "${ADMIN_USER}" "${TFA_SECRET}"
-
-printf "%s\n\n" "${OTPAUTH_URL}"
-printf "2FA Authenticator Codes:\n%s\n" "$(oathtool -s 30 -w 10 --totp --base32 "${TFA_SECRET}")"
-
-segno "${OTPAUTH_URL}" -s 4 -o "pub/media/${ADMIN_USER}-totp-qr.png"
-printf "%s\n\n" "https://${TRAEFIK_SUBDOMAIN}.${TRAEFIK_DOMAIN}/media/${ADMIN_USER}-totp-qr.png?t=$(date +%s)"
 ```
 
-8. Disable 2FA
+9. Disable 2FA
 
 ```bash
 bin/magento module:disable -f Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFactorAuth
 ```
 
-9. Launch the application in your browser:
+10. Launch the application in your browser:
 
 - [https://app.grocery-store.test/](https://app.grocery-store.test/)
 - [https://app.grocery-store.test/backend/](https://app.grocery-store.test/backend/)
@@ -175,7 +169,7 @@ bin/magento module:disable -f Magento_TwoFactorAuth Magento_AdminAdobeImsTwoFact
 
 ### Install Expo Go
 
-You'll need to install [Expo Go](https://expo.dev/go) to test.
+You'll need to install [Expo Go](https://expo.dev/go) on your mobile device to launch application.
 
 
 ### Setup React Native
@@ -187,8 +181,16 @@ git clone https://github.com/quythanh/grocery-store-frontend
 ```
 
 
-2. Install dependencies
+2. Install dependencies:
 
 ```bash
 npm install
 ```
+
+3. Start project:
+
+```bash
+npm start
+```
+
+4. Use your phone to scan the QR code shown on the terminal.

@@ -61,8 +61,9 @@ const config: Config = {
             items: [
                 {
                     href: 'https://github.com/quythanh/grocery-store',
-                    label: 'GitHub',
                     position: 'right',
+                    className: 'header-github-link',
+                    'aria-label': 'GitHub repository'
                 },
             ],
         },

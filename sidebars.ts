@@ -22,6 +22,11 @@ const sidebars: SidebarsConfig = {
                     id: 'configuration/trust-ca-root-cert',
                     label: "Trusted CA Root Certificate"
                 },
+                {
+                    type: 'doc',
+                    id: 'configuration/database',
+                    label: "Database"
+                }
             ]
         }
     ],

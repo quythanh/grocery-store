@@ -69,7 +69,11 @@ warden shell
 composer global config http-basic.repo.magento.com <username> <password>
 ```
 
-(Use the **Public key** as your `<username>` and the **Private key** as your `<password>`)
+:::info NOTE
+
+Use the **Public key** as your `<username>` and the **Private key** as your `<password>`
+
+:::
 
 6. Install libraries
 

@@ -20,11 +20,7 @@ brew install wardenenv/warden/warden
 warden svc up
 ```
 
-### Automatic DNS Resolution
-
-#### MacOS
-
-This configuration is automatic via the BSD per-TLD resolver configuration found at `/etc/resolver/test`.
+### DNS Resolution
 
 #### Linux / Windows (WSL2)
 
@@ -34,7 +30,14 @@ Add the following line to `/etc/hosts`.
 127.0.0.1 app.grocery-store.test
 ```
 
-**Note:** if you're using Windows with **WSL2**, you also need to add to `C:\Windows\System32\drivers\etc\hosts`
+**Note:** If you're using Windows with **WSL2**, you also need to add to `C:\Windows\System32\drivers\etc\hosts`
+
+
+:::tip
+
+For more information see the configuration page for [Automatic DNS Resolution](./configuration/auto-dns-resolv.md).
+
+:::
 
 ### Setup Magento 2
 

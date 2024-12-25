@@ -18,6 +18,11 @@ const sidebars: SidebarsConfig = {
             label: "Configuration",
             items: [
                 {
+                    type: "doc",
+                    id: 'configuration/auto-dns-resolv',
+                    label: "Automatic DNS Resolution"
+                },
+                {
                     type: 'doc',
                     id: 'configuration/trust-ca-root-cert',
                     label: "Trusted CA Root Certificate"

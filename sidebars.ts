@@ -33,6 +33,16 @@ const sidebars: SidebarsConfig = {
                     label: "Database"
                 }
             ]
+        },
+        {
+            type: "doc",
+            id: 'coc',
+            label: "Code of Conduct"
+        },
+        {
+            type: "doc",
+            id: "contrib",
+            label: "Contribution"
         }
     ],
 };

@@ -279,5 +279,5 @@ The content of the commit message body should contain:
 - a clear description of the reason for reverting the commit message.
 
 
-[coc]: CODE_OF_CONDUCT.md
+[coc]: ./coc.md
 [github]: https://github.com/quythanh/grocery-store

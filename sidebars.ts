@@ -41,6 +41,11 @@ const sidebars: SidebarsConfig = {
         },
         {
             type: "doc",
+            id: "dev-flow",
+            label: "Development Flow"
+        },
+        {
+            type: "doc",
             id: "contrib",
             label: "Contribution"
         }

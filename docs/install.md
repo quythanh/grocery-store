@@ -194,10 +194,16 @@ git clone https://github.com/quythanh/grocery-store-frontend
 npm install
 ```
 
-3. Start project:
+3. Create `.env` file
+
+```js title=".env"
+EXPO_PUBLIC_API_URL="https://magento.quythanh.tk"
+```
+
+4. Start project:
 
 ```bash
 npm start
 ```
 
-4. Use your phone to scan the QR code shown on the terminal.
+5. Use your phone to scan the QR code shown on the terminal.
